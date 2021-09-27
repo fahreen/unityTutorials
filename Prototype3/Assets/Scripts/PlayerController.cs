@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     public float gravityModifier;
     public bool isOnGround = true;
     public bool gameOver; //used in MoveLeft script
+    public ParticleSystem explosionParticle;
 
+    public ParticleSystem dirtParticle;
     //get refernce to animator
     private Animator playerAnim;
 
@@ -31,13 +33,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround) 
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver) 
         {
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); //impulse adds force immeiately {acceleration, impluse,velocity change,Farce}
             isOnGround = false;
             //activate jump trigger animation
             playerAnim.SetTrigger("Jump_trig");
-
+            dirtParticle.Stop();
         }
 
 
@@ -47,22 +49,27 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) 
     {
-        isOnGround = true; //allow player to jump only if they are on ground
+        
 
         if (collision.gameObject.CompareTag("Ground"))// when u collide with a game object, check if its ground
         {
+            isOnGround = true; //allow player to jump only if they are on ground
+            dirtParticle.Play();
         }
         else if (collision.gameObject.CompareTag("Obstacle")) // when u collide with a game object, check if its ground
         {
+            Debug.Log("Game Over");
+            gameOver = true;
 
             //Death animation
             playerAnim.SetBool("Death_b", true);
             playerAnim.SetInteger("DeathType_int", 1);
+            explosionParticle.Play();
+            dirtParticle.Stop();
 
 
 
-            Debug.Log("Game Over");
-            gameOver = true;
+
 
         }
 
