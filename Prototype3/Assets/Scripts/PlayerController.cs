@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
     public bool gameOver; //used in MoveLeft script
     public ParticleSystem explosionParticle;
 
+    //sound effects
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+    private AudioSource playerAudio;
+
     public ParticleSystem dirtParticle;
     //get refernce to animator
     private Animator playerAnim;
@@ -28,6 +33,10 @@ public class PlayerController : MonoBehaviour
         playerAnim = GetComponent<Animator>();
 
 
+        //sound
+        playerAudio = GetComponent<AudioSource>();
+
+
     }
 
     // Update is called once per frame
@@ -40,6 +49,10 @@ public class PlayerController : MonoBehaviour
             //activate jump trigger animation
             playerAnim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
+
+            //sound
+
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
 
 
@@ -66,6 +79,9 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetInteger("DeathType_int", 1);
             explosionParticle.Play();
             dirtParticle.Stop();
+
+            //sound
+            playerAudio.PlayOneShot(crashSound, 1.0f);
 
 
 
