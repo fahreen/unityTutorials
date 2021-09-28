@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         
         //change gravity of our physics
         Physics.gravity *= gravityModifier;
+        
 
         playerAnim = GetComponent<Animator>();
 
