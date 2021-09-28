@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveRight : MonoBehaviour
+public class DestroyOutofBounds : MonoBehaviour
 {
-    private float speed = 40;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +13,10 @@ public class MoveRight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.Translate(Vector3.right * Time.deltaTime * speed);
+        if(this.transform.position.x > 45 || this.transform.position.x < -15)
+        {
+            Destroy(gameObject);
+        }
         
     }
 }

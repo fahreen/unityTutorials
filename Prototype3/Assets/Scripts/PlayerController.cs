@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public int health = 3;
+
     private Rigidbody playerRB;
     public float jumpForce = 10;
     public float gravityModifier;
@@ -19,6 +21,10 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem dirtParticle;
     //get refernce to animator
     private Animator playerAnim;
+
+    //ammo
+    public GameObject ammoPrefab;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +62,14 @@ public class PlayerController : MonoBehaviour
             playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
 
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Instantiate(ammoPrefab, new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), ammoPrefab.transform.rotation);
 
+            //sound
+        }
+
+       
 
     }
 
@@ -83,10 +96,6 @@ public class PlayerController : MonoBehaviour
 
             //sound
             playerAudio.PlayOneShot(crashSound, 1.0f);
-
-
-
-
 
         }
 
