@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class DetectCollissions : MonoBehaviour
 {
+    public AudioClip enemySound;
+    public AudioSource playerAudio;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ammo"))
+        if (other.CompareTag("Ammo")  && this.transform.position.y < 19)
         {
-            if (this.transform.position.y < 19)
-            {
                 Destroy(gameObject);
                 Destroy(other.gameObject);
-            }
-        }
-
-        else if (other.CompareTag("Player"))
-        {
-            Debug.Log("DEAD");
-           // PlayerController playerScript = other.GetComponent<PlayerController>();
-           // playerScript.health--;
-            //Debug.Log(playerScript.health);
+            
         }
 
     }
@@ -34,10 +26,10 @@ public class DetectCollissions : MonoBehaviour
             PlayerController playerScript = collision.gameObject.GetComponent<PlayerController>();
              playerScript.health--;
             Debug.Log(playerScript.health);
-            if (playerScript.health < 0)
-            {
-                Debug.Log("Game over!");
-            }
+            playerAudio.PlayOneShot(enemySound, 1.0f) ;
+
+
+          
         }
 
     }

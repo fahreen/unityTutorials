@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Enemy
   - Ammo
+  - PlayerPowerup
   layers:
   - Default
   - TransparentFX

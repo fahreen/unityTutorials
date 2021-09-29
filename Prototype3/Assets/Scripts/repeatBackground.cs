@@ -10,7 +10,7 @@ public class repeatBackground : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        //get halway point with box collider componenet.
+        //get halfway point with box collider componenet.
         repeatWidth = (GetComponent<BoxCollider>().size.x) / 2;
     }
 

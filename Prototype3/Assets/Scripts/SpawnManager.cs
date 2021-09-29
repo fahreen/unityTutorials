@@ -10,15 +10,15 @@ public class SpawnManager : MonoBehaviour
     private Vector3 spawnPosition = new Vector3(30,0,0);
     private Vector3 powerupSpawnPosition = new Vector3(15, 4, 0);
     private float startDelay = 2;
-    private float repeatRate =10;
+    private float repeatRate =9;
 
     private PlayerController playerControllerScript;
     // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("SpawnObstacle", startDelay, repeatRate);
-        InvokeRepeating("SpawnPowerup", 10, 10);
-        InvokeRepeating("SpawnEnemies", 4, 4);
+        InvokeRepeating("SpawnPowerup", 10, 17);
+        InvokeRepeating("SpawnEnemies", 3, 3);
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 

@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
+    public AudioSource bgMusic;
+    public AudioSource powerupMusic;
+
+    public Text healthCounterText;
     public int health = 3;
+    public Material powerupMaterial;
 
     private Rigidbody playerRB;
     public float jumpForce = 10;
@@ -43,6 +49,7 @@ public class PlayerController : MonoBehaviour
         //sound
         playerAudio = GetComponent<AudioSource>();
 
+        
 
     }
 
@@ -62,14 +69,40 @@ public class PlayerController : MonoBehaviour
             playerAudio.PlayOneShot(jumpSound, 1.0f);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Instantiate(ammoPrefab, new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), ammoPrefab.transform.rotation);
 
             //sound
         }
 
-       
+        if (this.CompareTag("Player"))
+        {
+            healthCounterText.text = "Health: " + health.ToString();
+        }
+        else if (this.CompareTag("PlayerPowerup"))
+        {
+            healthCounterText.text = "INFINITY!";
+        }
+        
+
+
+        if (health < 1)
+        {
+            gameOver = true;
+
+            //Death animation
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("DeathType_int", 1);
+            explosionParticle.Play();
+            dirtParticle.Stop();
+
+            //sound
+            playerAudio.PlayOneShot(crashSound, 1.0f);
+            bgMusic.Stop();
+            powerupMusic.Stop();
+            SceneManager.LoadScene("GameOverScene");
+        }
 
     }
 
@@ -96,6 +129,10 @@ public class PlayerController : MonoBehaviour
 
             //sound
             playerAudio.PlayOneShot(crashSound, 1.0f);
+            bgMusic.Stop();
+            powerupMusic.Stop();
+            SceneManager.LoadScene("GameOverScene");
+
 
         }
 

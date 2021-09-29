@@ -4,21 +4,14 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    private PlayerController playerControllerScript;
-    public Material powerupMaterial;
 
-    // Start is called before the first frame update
 
-    private void Start()
-    {
-       // playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-          StartCoroutine( fly(other));
+            StartCoroutine(fly(other));
         }
     }
 
@@ -29,28 +22,31 @@ public class PowerUp : MonoBehaviour
     {
 
         player.transform.localScale *= 1.4f;
-        Physics.gravity *= 0.3f;
 
+        //make immune to enemies
+        player.tag = "PlayerPowerup";
 
+        PlayerController playerScript = player.GetComponent<PlayerController>();
 
-        // PlayerController playerControllerScript = player.GetComponent<PlayerController>();
-
-        //Physics.gravity = 
-        //player.transform.localPosition.Set(player.transform.position.x, player.transform.position.y + 4, player.transform.position.z);
-        //playerControllerScript.gravityModifier = 0.3f;
-        //Physics.gravity *= 0.3f;
+        playerScript.bgMusic.Stop();
+        playerScript.powerupMusic.Play();
 
         //disable powerup graphics
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
+        //gain a extra health
+        playerScript.health++;
+        //playerScript.healthCounterText.text = "INFINITY";
 
-      
-   
         //wait
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(7);
 
         player.transform.localScale /= 1.4f;
-        Physics.gravity /= 0.3f;
+        player.tag = "Player";
+        playerScript.bgMusic.Play();
+        playerScript.powerupMusic.Stop();
+
+
         Debug.Log("POWERUP");
         //remove powerup
         Destroy(gameObject);
